@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Latin Noun Gender</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Latin Noun Gender">
+  <meta name="author" content="Hezekiah Akiva Bacovcin">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Latin Noun Gender</h1>
+    <h2>An Interactive Prediction App</h2>
+    <p>Hezekiah Akiva Bacovcin<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Goal of App</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Latin nouns could have one of three genders: masculine, feminine or neuter</p>
+
+<p><em>GOAL</em>: Predict Latin noun gender based on properties of the noun (vowels, document frequency, and average word frequency)</p>
+
+<p><em>Secondary Goal</em>: Compare different types of predictive models</p>
+
+<p>Data was extracted from the <a href="perseus.upenn.edu">Perseus Database</a>.</p>
+
+<pre><code class="r">data&lt;-read.csv(&#39;latin_with_vowels.csv&#39;)
+numofwords&lt;-dim(data)[1]
+femrate&lt;-round((sum(data$gender==&#39;f&#39;)/sum(!is.na(data$gender)))*100)
+mascrate&lt;-round((sum(data$gender==&#39;m&#39;)/sum(!is.na(data$gender)))*100)
+neutrate&lt;-round((sum(data$gender==&#39;n&#39;)/sum(!is.na(data$gender)))*100)
+</code></pre>
+
+<p>There are 1641 different words extracted. 39% of the words are feminine, 35% of words are masculine and 26% of words are neuter.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Predictors</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The gender of the nouns are predicted using the following three variables:</p>
+
+<ol>
+<li>Vowels: Whether or not the noun has an &quot;a&quot;, &quot;e&quot;, &quot;i&quot;, &quot;o&quot;, &quot;u&quot;, or &quot;y&quot; in it.</li>
+<li>Inverse Document Frequency (idf): A measure of how specialised a noun is. Low idf means the word occurs in a large number of texts and is thus common; High idf means the word only occurs in a few documents and is thus probably a technical term.</li>
+<li>Average Document Frequency: How frequent a word is on average.</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Models</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The app is designed to compare the performance of five different predictive models (fit using cross validation with the <strong>caret</strong> package):</p>
+
+<ol>
+<li>XGBoostTree (A boosted tree model)</li>
+<li>Random Forest</li>
+<li>Naive Bayes</li>
+<li>Flexible Descriminant Analysis</li>
+<li>Neural Network</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Results</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Interesting results:</p>
+
+<ol>
+<li>The final app shows that the different models can arrive at remarkably different results given the same input data.</li>
+<li>More frequent Latin nouns are more likely to be feminine (especially if the noun has the vowel &quot;a&quot;)</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Goal of App'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Predictors'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Models'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Results'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

@@ -1,0 +1,68 @@
+---
+title       : Latin Noun Gender
+subtitle    : An Interactive Prediction App
+author      : Hezekiah Akiva Bacovcin
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Goal of App
+
+Latin nouns could have one of three genders: masculine, feminine or neuter
+
+*GOAL*: Predict Latin noun gender based on properties of the noun (vowels, document frequency, and average word frequency)
+
+*Secondary Goal*: Compare different types of predictive models
+
+Data was extracted from the [Perseus Database](perseus.upenn.edu).
+```{r load-data-for-calculation}
+data<-read.csv('latin_with_vowels.csv')
+numofwords<-dim(data)[1]
+femrate<-round((sum(data$gender=='f')/sum(!is.na(data$gender)))*100)
+mascrate<-round((sum(data$gender=='m')/sum(!is.na(data$gender)))*100)
+neutrate<-round((sum(data$gender=='n')/sum(!is.na(data$gender)))*100)
+```
+There are `r numofwords` different words extracted. `r femrate`% of the words are feminine, `r mascrate`% of words are masculine and `r neutrate`% of words are neuter.
+
+--- .class #id 
+
+## Predictors
+
+The gender of the nouns are predicted using the following three variables:
+
+1. Vowels: Whether or not the noun has an "a", "e", "i", "o", "u", or "y" in it.
+2. Inverse Document Frequency (idf): A measure of how specialised a noun is. Low idf means the word occurs in a large number of texts and is thus common; High idf means the word only occurs in a few documents and is thus probably a technical term.
+3. Average Document Frequency: How frequent a word is on average.
+
+--- .class #id 
+
+## Models
+
+The app is designed to compare the performance of five different predictive models (fit using cross validation with the **caret** package):
+
+1. XGBoostTree (A boosted tree model)
+2. Random Forest
+3. Naive Bayes
+4. Flexible Descriminant Analysis
+5. Neural Network
+
+--- .class #id 
+
+## Results
+
+Interesting results:
+
+1. The final app shows that the different models can arrive at remarkably different results given the same input data.
+2. More frequent Latin nouns are more likely to be feminine (especially if the noun has the vowel "a")
+
+
+
+
+
+
+
